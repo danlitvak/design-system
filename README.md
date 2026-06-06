@@ -1,6 +1,6 @@
-# Monochrome UI
+# My Design System
 
-A minimal, monochrome design system and component library — built on
+A minimal, monochrome design system I will use for future projects — built on
 **shadcn/ui** (Radix primitives), **Tailwind v4**, **Vite**, and
 **React 19 / TypeScript**. Squared corners, JetBrains Mono headings, a
 grayscale palette, light + dark themes, and motion throughout.
