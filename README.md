@@ -1,69 +1,100 @@
-# Monochrome UI — Design System
+# Monochrome UI
 
-A minimal, monochrome front-end design system for reuse across projects.
-Built on **shadcn/ui** (Radix primitives) + **Tailwind v4** + **Vite** + **React 19 / TypeScript**.
+A minimal, monochrome design system and component library — built on
+**shadcn/ui** (Radix primitives), **Tailwind v4**, **Vite**, and
+**React 19 / TypeScript**. Squared corners, JetBrains Mono headings, a
+grayscale palette, light + dark themes, and motion throughout.
 
-- 56 components in `src/components/ui/`
-- Grayscale palette, single near-black / near-white accent, light + dark themes
-- All design tokens live as CSS variables in `src/index.css` — edit once, retheme everywhere
-- `src/App.tsx` is a live showcase of every component group
+**🔗 Live demo: https://danlitvak.github.io/design-system/**
 
-## Run the showcase
+![Monochrome UI — component showcase](docs/screenshot.png)
+
+---
+
+## Highlights
+
+- **56 UI components** — the full shadcn/ui set (buttons, inputs, dialogs,
+  menus, tables, charts, calendar, command palette, and more).
+- **33 example cards** — the shadcn theme-preview gallery, in the Lyra style.
+- **13 composed blocks** — hero, navbar + mobile menu, footer, project grid,
+  pricing, FAQ, auth forms, dashboard shell, contact form, and a blog/article
+  layout with prose typography and a table of contents.
+- **Motion primitives** — `FadeIn`, `Reveal`, `Stagger`, `AnimatedCounter`,
+  and `Marquee`, powered by framer-motion. Reveal-on-scroll throughout.
+- **Theming from one file** — every color, radius, and font is a CSS variable
+  in `src/index.css`. Light + dark, plus a `ModeToggle` (light / dark / system).
+- **Framework-ready** — components ship with `"use client"`; drops into
+  Next.js App Router. See [`NEXTJS.md`](./NEXTJS.md).
+
+## Tech stack
+
+React 19 · TypeScript · Vite · Tailwind CSS v4 · shadcn/ui · Radix UI ·
+framer-motion · next-themes · lucide-react · recharts
+
+## Getting started
 
 ```bash
 npm install
-npm run dev      # open the printed localhost URL
-npm run build    # type-check + production build
+npm run dev      # start the dev server (Vite prints the local URL)
+npm run build    # type-check + production build to dist/
+npm run preview  # preview the production build locally
 ```
 
-Toggle light/dark with the button in the top-right of the showcase.
-
-## Use it in a new project
-
-This folder is meant to be copied as a starting point. Two ways to reuse:
-
-1. **Clone the whole folder** as the base for a new app, delete `src/App.tsx`,
-   and start building your screens. Everything is already wired up.
-2. **Copy pieces into an existing app**: copy `src/components/ui/`,
-   `src/lib/utils.ts`, `src/hooks/`, and the token blocks from `src/index.css`.
-   Make sure the dependencies below are installed and the `@/*` path alias
-   points at `src/` (see `vite.config.ts` + `tsconfig.app.json`).
+Requires Node 18+.
 
 ## Theming
 
-Open `src/index.css`. The `:root` block is the light theme, `.dark` is dark.
-Change `--primary` / `--background` / `--radius` etc. and every component updates.
-Colors are in the `oklch()` color space; charts use a grayscale ramp.
+Open `src/index.css`. The `:root` block is the light theme and `.dark` is dark;
+both come from the **radix-lyra** preset (zinc-toned monochrome, `--radius: 0`,
+JetBrains Mono headings). Change a token once and every component updates:
 
-## Adding more shadcn components later
-
-Because the `@/*` alias and `components.json` are configured, you can pull
-additional or updated components straight from the CLI:
-
-```bash
-npx shadcn@latest add <component>
+```css
+:root {
+  --radius: 0;
+  --primary: oklch(0.21 0.006 285.885);
+  --background: oklch(1 0 0);
+  /* …colors, charts, fonts… */
+}
 ```
 
-## Stack / key dependencies
+Wrap your app in the `ThemeProvider` and drop a `<ModeToggle />` anywhere for a
+light / dark / system switch.
 
-radix-ui · lucide-react · class-variance-authority · clsx · tailwind-merge ·
-tw-animate-css · recharts · vaul · sonner · cmdk · embla-carousel-react ·
-input-otp · react-day-picker · react-hook-form · react-resizable-panels ·
-@base-ui/react · next-themes
+## Project structure
+
+```
+src/
+  components/
+    ui/          56 shadcn/ui components
+    blocks/      hero, navbar, footer, pricing, faq, auth, dashboard, …
+    motion/      framer-motion primitives
+    preview/     the shadcn example-card gallery
+    theme/        ThemeProvider + ModeToggle
+  lib/utils.ts   cn() helper
+  hooks/         use-mobile, …
+  index.css      design tokens (edit here to retheme)
+  App.tsx        the live showcase
+```
+
+## Use it in your own project
+
+Copy `src/components/`, `src/lib/utils.ts`, `src/hooks/`, and the token blocks
+from `src/index.css` into your app, set the `@/*` path alias, and install the
+dependencies above. For Next.js specifics (layout, server vs client, fonts),
+see [`NEXTJS.md`](./NEXTJS.md).
 
 ## Deploy a live preview (GitHub Pages)
 
 This repo includes a GitHub Actions workflow (`.github/workflows/deploy.yml`)
-that builds the site and publishes it to GitHub Pages on every push to `main`.
+that builds and publishes to GitHub Pages on every push to `main`.
 
-1. Create a GitHub repo and push this folder:
-   ```bash
-   git remote add origin https://github.com/<you>/design-system.git
-   git push -u origin main
-   ```
-2. On GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-3. The Actions tab runs the workflow; when it finishes, your live URL appears at
-   the top of the Pages settings (e.g. `https://<you>.github.io/design-system/`).
+1. Push the repo to GitHub.
+2. **Settings → Pages → Build and deployment → Source → "GitHub Actions".**
+3. Push (or re-run the workflow); the live URL appears in the Pages settings.
 
-The Vite config uses a relative `base`, so the site works at that subpath with no
-extra configuration. Link the URL from your profile README to show it off.
+The Vite `base` is set to `/design-system/` to match the repo name — update it
+in `vite.config.ts` (or set `VITE_BASE`) if you rename the repo.
+
+## License
+
+MIT — use it freely in personal and commercial projects.
